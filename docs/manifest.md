@@ -299,7 +299,7 @@ scenes:
 | `E_SCENE_NO_META` | E | заголовок `##` без записи в `scenes` |
 | `E_SCENE_META_ORPHAN` | E | запись в `scenes` без заголовка |
 | `E_SCENE_START_MISSING` | E | `start` указывает на несуществующую сцену |
-| `E_SCENE_DEAD_END` | E | нет выборов и нет `ending: true` |
+| `E_SCENE_DEAD_END` | E | нет `variants`/`next` и нет `ending: true` |
 | `E_SCENE_NO_TITLE` | E | нет `title` |
 | `E_SCENE_H1` | W | заголовок `#` в `story.md` |
 | `W_SCENE_UNREACHABLE` | W | сцена недостижима из `start` |
