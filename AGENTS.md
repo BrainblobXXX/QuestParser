@@ -2,7 +2,7 @@
 
 > **Если ты ИИ-агент — читай этот файл первым.** Он объясняет, зачем нужен набор
 > инструкций, как устроен весь процесс, и отправляет к нужному файлу за деталями.
-> Версия набора: **0.51**. Раньше это был один файл `QuestRules.md`; теперь он
+> Версия набора: **0.53**. Раньше это был один файл `QuestRules.md`; теперь он
 > разбит на целевые инструкции в `docs/`.
 >
 > Набор — про разбор книги: вход (текст), выход (пакет файлов) и формат этого пакета.
@@ -31,25 +31,35 @@
 
 | Файл | Когда читать |
 |---|---|
+| [docs/source.md](docs/source.md) | источник: кодировки, PDF, полнота, фрагменты |
+| [docs/metadata.md](docs/metadata.md) | карточка книги и провенанс: автор, переводчик, иллюстратор, статус |
 | [docs/conversion.md](docs/conversion.md) | пошаговый алгоритм: от текста книги до пакета |
+| [docs/book-types/index.md](docs/book-types/index.md) | тип книги: `storybook`, `fighting-fantasy`, `rpg`, `hybrid` |
+| [docs/book-types/storybook.md](docs/book-types/storybook.md) | ветвление, главы, дубли, коды |
+| [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md) | статы, бои, расходники |
+| [docs/book-types/rpg.md](docs/book-types/rpg.md) | навыки, проверки, опыт, торговля |
 | [docs/story.md](docs/story.md) | `story.md`: сцены, варианты, переходы, броски |
 | [docs/manifest.md](docs/manifest.md) | `game.yaml`: структура пакета, поля, условия, эффекты, проверки |
 | [docs/review.md](docs/review.md) | `review.md`: коды сомнительных случаев и разбор с человеком |
 | [docs/illustrations.md](docs/illustrations.md) | `illustrations.md`: бриф художнику и алгоритм кадров |
 | [docs/soundtrack.md](docs/soundtrack.md) | `soundtrack.md`: настроения и музыка |
 | [docs/story-graph.md](docs/story-graph.md) | `storyGraph.md`: карта ветвлений |
-| [docs/items.md](docs/items.md) | `items.yaml`: предметы |
+| [docs/items.md](docs/items.md) | `items.yaml`: предметы, проверки в прозе, аудит предметов |
 | [docs/stats.md](docs/stats.md) | `stats.yaml` и `flags.yaml`: статусы и флаги |
+| [docs/case-zombieblood.md](docs/case-zombieblood.md) | опыт разбора ZombieBlood: цифры, ловушки, чек-лист конвертера |
 
 ### 0.3. Пайплайн в двух словах
 
 ```text
-текст книги
+файл книги (txt, pdf, html…)
+   ↓  шаг 0: источник, кодировка, полнота, фрагмент
+   ↓  шаг 0.5: тип книги и подтверждение человеком
    ↓  шаги 1–5: структура, отсылки, нормализация, граф, типы переходов
 story.md + game.yaml
+   ↓  шаги 5.5–5.6: выборы в прозе, инвентаризация механик
    ↓  шаги 6–8: сцены, варианты, метаданные
-items.yaml, stats.yaml, flags.yaml (если книга их требует)
-   ↓  шаги 9–10: брифы, самопроверка
+items.yaml, stats.yaml, flags.yaml, mechanics.yaml (если книга их требует)
+   ↓  шаги 9–10: брифы, иллюстрации из книги, самопроверка
 illustrations.md, soundtrack.md, storyGraph.md
    ↓  шаги 11–12: review.md и разбор с человеком
 готовый пакет
@@ -62,8 +72,9 @@ illustrations.md, soundtrack.md, storyGraph.md
 ### 0.4. Режим ИИ-конвертации
 
 > **ВАЖНО. Результат конвертации остаётся в каталоге книги.** Все созданные файлы —
-> `story.md`, `game.yaml`, `items.yaml`, `review.md`, `storyGraph.md`,
-> `soundtrack.md`, `illustrations.md`, `assets/` — складываются рядом с исходным текстом книги.
+> `story.md`, `game.yaml`, `items.yaml`, `stats.yaml`, `flags.yaml`,
+> `mechanics.yaml`, `review.md`, `storyGraph.md`, `soundtrack.md`,
+> `illustrations.md`, `assets/` — складываются рядом с исходным текстом книги.
 > Пакет не пишется в чужие каталоги: сначала его проверяет человек (шаг 12 в
 > [docs/conversion.md](docs/conversion.md)), и только после этого он передаётся дальше.
 
@@ -79,11 +90,12 @@ story.md       все сцены: ## <ключ>, повествование, в�
 items.yaml     только если в книге есть предметы (TBD 6)
 stats.yaml     только если в книге считаются характеристики (TBD 7)
 flags.yaml     только если в книге есть события (TBD 7)
-review.md      сомнительные случаи для человека (§0.5, [review.md](docs/review.md))
+mechanics.yaml только если есть проверки или бои (типы fighting-fantasy/rpg)
+review.md      сомнительные случаи для человека + аудит предметов (§0.5, [review.md](docs/review.md))
 storyGraph.md  карта ветвлений: выходы сцен, концовки, хабы, Mermaid-граф (§2.3, [story-graph.md](docs/story-graph.md))
 soundtrack.md  бриф композитору: настроение каждой сцены и главы по настроению (§2, [manifest.md](docs/manifest.md))
 illustrations.md  бриф художнику: что нарисовать и к каким сценам (§2, [manifest.md](docs/manifest.md))
-assets/        изображения и звук, если они уже есть
+assets/        изображения и звук, включая обложку (cover) и кадры из книги
 ```
 
 Ключевые ограничения режима:
@@ -172,8 +184,10 @@ assets/        изображения и звук, если они уже ест
 | сериализуемое состояние для сохранения | [manifest.md](docs/manifest.md) |
 | статическая проверка проходимости | [manifest.md](docs/manifest.md) |
 
-Всё, что выходит за эту таблицу (бой, карты, таймеры, квесты), в профиль формата не
-входит. Тема оформления — отдельное отложенное решение (TBD 9).
+Всё, что выходит за эту таблицу (карты, таймеры, квесты), в профиль формата не
+входит. Проверки и бои описаны как расширение: `mechanics.yaml`, документы типов книг
+([book-types](docs/book-types/index.md)). Тема оформления — отдельное отложенное
+решение (TBD 9).
 
 ---
 
@@ -221,6 +235,25 @@ TBD 1–10 относятся к формату пакета и ведутся �
 | TBD 8 | изображения и музыка | закрыт, [illustrations.md](docs/illustrations.md), [soundtrack.md](docs/soundtrack.md) |
 | TBD 9 | тема оформления | отложен |
 | TBD 10 | каталог валидатора | отложен; минимум проверок — [manifest.md](docs/manifest.md) |
+
+## 14. История версий набора
+
+- **0.53** — опыт сквозного разбора ZombieBlood (400 параграфов): новый файл
+  [docs/case-zombieblood.md](docs/case-zombieblood.md); уточнены правила разбора
+  PDF из Word (абзацы и страницы), проверка отсылок по «что стоит после числа»,
+  порядок исходов броска (по убыванию `min`), границы тега варианта (пунктуация,
+  кавычки, союзы), условия предметов в прозе (пары «есть/нет», местоимения,
+  `or`-цепочки, условие в соседнем предложении), обязательный **аудит предметов**
+  в `review.md`, дедуп иллюстраций по нормализованной корреляции и отсев
+  повторяющихся украшений, принудительные настроения для боёв и концовок;
+  новые коды `review.md`: `C_ITEM_NO_SOURCE`, `C_ITEM_SHOP`,
+  `C_ITEM_CHOICE_UNSUPPORTED`, `C_EFFECT_REPEAT`.
+- **0.52** — источник и фрагменты (`source.md`), метаданные (`metadata.md`), типы книг
+  (`book-types/`), проверки и бои (`mechanics.yaml`), выборы в прозе, стили отсылок,
+  изображения из книги, `cover` и `images`, новые коды `review.md`.
+- **0.51** — набор выделен в отдельный проект парсера: убраны упоминания интерфейса,
+  удалён раздел «Границы документа».
+- **0.50** — единый `QuestRules.md` разбит на целевые документы в `docs/`.
 
 ## 15. Куда дальше
 

@@ -22,6 +22,7 @@
 | `items.yaml` | предметы (TBD 6) |
 | `stats.yaml` | статусы (TBD 7) |
 | `flags.yaml` | флаги (TBD 7) |
+| `mechanics.yaml` | проверки и бои: `checks`, `combat` ([book-types](book-types/index.md)) |
 | `storyGraph.md` | карта ветвлений: выходы сцен, концовки, хабы, Mermaid-граф (§2.3, [story-graph.md](story-graph.md)) |
 | `review.md` | сомнительные случаи для человека (§0.5, [review.md](review.md)) |
 | `theme.yaml` | тема оформления: TBD 9, в профиль формата пока не входит |
@@ -35,9 +36,17 @@
 format: quest/1        # версия формата, обязателен
 id: koshchei-cave      # ASCII-слаг, обязателен
 title: Кощеева пещера
+type: storybook        # storybook | fighting-fantasy | rpg | hybrid
+status: complete       # complete | fragment
 author: Гарри Гаррисон # для карточки в библиотеке; нет — прочерк
 genre: фантастика · книга-игра   # свободная строка; нет — прочерк
 annotation: Краткое описание книги для библиотеки, 1–3 предложения.  # нет — прочерк
+illustrator: Иван Иванов  # если указан в книге
+translator: —          # если книга переводная
+edition: 1995, Москва  # выходные данные
+year: 1995
+source: koshchei-cave.txt
+cover: assets/cover.webp  # обложка для библиотеки
 language: ru
 start: cave_entry      # id стартовой сцены, обязателен
 story: story.md        # по умолчанию story.md
@@ -47,6 +56,7 @@ start_items:           # с чем игрок начинает; id из items.ya
   sleep_grenades: 2
 stats: stats.yaml      # опционально, по умолчанию stats.yaml
 flags: flags.yaml      # опционально, по умолчанию flags.yaml
+mechanics: mechanics.yaml  # опционально: проверки и бои
 moods:                 # настроения сцен: ключ → трек, список треков или null
   calm: assets/audio/calm.ogg
   tense: assets/audio/tense.ogg
@@ -62,10 +72,15 @@ scenes:                # метаданные сцен, см. TBD 2
 настроением продолжает текущий трек. `default_mood` подхватывает только сцены, у которых
 `mood` отсутствует совсем. Подробно — [soundtrack.md](soundtrack.md).
 
-**Карточка книги.** `title`, `author`, `genre`, `annotation` показываются на экране
-библиотеки. `author`, `genre` и `annotation` необязательны: если поля нет, интерфейс
-печатает прочерк. Ничего не выдумывай: автора и жанр бери из книги, аннотацию —
-из предисловия или первой фразы, помечая пересказ в `review.md` (`C_CONTENT_ADDED`).
+**Карточка книги.** `title`, `author`, `genre`, `annotation`, `illustrator` и `cover`
+показываются на экране библиотеки. Необязательные поля при отсутствии печатаются
+прочерком. Ничего не выдумывай: поля берутся из книги, выходных данных или
+предисловия; правила и приоритет источников — [metadata.md](metadata.md).
+
+**Тип и статус.** `type` определяет правила разбора и набор файлов
+([book-types/index.md](book-types/index.md)). `status: fragment` ставится только
+после решения человека продолжать ознакомительный фрагмент ([source.md](source.md)).
+Поле подтверждается человеком, как и тип.
 
 **Правила:**
 
@@ -78,6 +93,47 @@ scenes:                # метаданные сцен, см. TBD 2
   `id: количество`; каждый id обязан быть объявлен в `items.yaml`, иначе ошибка. Поле нужно потому, что книжный герой почти всегда «уже вооружён», и без
   него предметы появляются только эффектами `take`;
 - структура пакета одна и та же для любой книги: предзагруженной или собранной заново;
+
+### 2.4. Несколько изображений у сцены
+
+Одно изображение — поле `image`. Если у сцены их несколько:
+
+```yaml
+"24":
+  title: Глава 24
+  image: illustrations/24-1.webp
+  images:
+    - illustrations/24-2.webp
+    - illustrations/24-3.webp
+```
+
+- `image` остаётся главным кадром (то, что видно сразу);
+- `images` — дополнительные, порядок задаёт галерею;
+- дубликаты путей запрещены;
+- сцена без `image`, но с `images` не считается ошибкой: главный кадр берётся из
+  первого элемента.
+
+### 2.5. Механики: `mechanics.yaml`
+
+Проверки и бои живут отдельным файлом, чтобы манифест не разрастался:
+
+```yaml
+checks:
+  - scene: "28"
+    stat: charisma
+    compare: "< 3"
+    success: "292"
+    failure: "309"
+combat:
+  - scene: "4"
+    enemy: { name: Охранник, attack: 2, defense: 14, health: 65, weapon: "5d6" }
+    win: "320"
+```
+
+Правила заполнения и статус расширений — [book-types/rpg.md](book-types/rpg.md) и
+[book-types/fighting-fantasy.md](book-types/fighting-fantasy.md). Пока движок не
+умеет проверки и бои, сцены остаются текстом, а записи в `mechanics.yaml` —
+заготовка на будущее; неполные записи помечаются в `review.md`.
 
 ## 5. TBD 4. Условия
 

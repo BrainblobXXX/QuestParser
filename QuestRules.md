@@ -12,6 +12,9 @@
 | Было | Стало |
 |---|---|
 | §0.1–0.4 — о документе, пайплайн, режим конвертации | [AGENTS.md](AGENTS.md) |
+| 0.52: источник, полнота, фрагменты | [docs/source.md](docs/source.md) |
+| 0.52: метаданные и провенанс | [docs/metadata.md](docs/metadata.md) |
+| 0.52: типы книг | [docs/book-types/index.md](docs/book-types/index.md), [storybook](docs/book-types/storybook.md), [fighting-fantasy](docs/book-types/fighting-fantasy.md), [rpg](docs/book-types/rpg.md) |
 | §0.5 — `review.md`, коды `C_*` | [docs/review.md](docs/review.md) |
 | §1 — принципы формата | [AGENTS.md](AGENTS.md) |
 | §2 — структура пакета, `game.yaml`, брифы | [docs/manifest.md](docs/manifest.md), [docs/illustrations.md](docs/illustrations.md), [docs/soundtrack.md](docs/soundtrack.md) |
@@ -31,6 +34,7 @@
 | §13 — реестр TBD | [AGENTS.md](AGENTS.md) |
 | §15 / приложение А — эталонный пакет | [docs/manifest.md](docs/manifest.md), [docs/story.md](docs/story.md), [docs/items.md](docs/items.md), [docs/stats.md](docs/stats.md) |
 | А.8 — пошаговая конвертация | [docs/conversion.md](docs/conversion.md) |
+| 0.53 — опыт сквозного разбора (ZombieBlood): цифры, ловушки, чек-лист | [docs/case-zombieblood.md](docs/case-zombieblood.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.
