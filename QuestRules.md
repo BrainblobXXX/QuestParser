@@ -38,8 +38,9 @@
 | 0.55 — опыт короткой книги с деньгами: тип, списания, кадры, дубли | [docs/case-2500.md](docs/case-2500.md) |
 | 0.58 — минимальный storybook без механик: скрытые меню, Markdown, жанр | [docs/case-unicorn.md](docs/case-unicorn.md) |
 | 0.58 — передача пакета в плеер: матрица поддержки, preflight, сейвы, ассеты | [docs/handoff.md](docs/handoff.md) |
-| 0.59 — книга на достижениях-флагах: «Если отмечено», бейджи, одна ссылка → `next`, флаги и движок | [docs/case-loveline.md](docs/case-loveline.md) |
+| 0.59 — книга на достижениях-флагах: «Если отмечено», бейджи, одна ссылка → `next` | [docs/case-loveline.md](docs/case-loveline.md) |
 | 0.60 — большой storybook без механик: ссылки PDF, «<…>», битый вариант, общий кадр, масштаб иллюстраций | [docs/case-kupalo.md](docs/case-kupalo.md) |
+| 0.61 — флаги в MVP и preflight Loveline/Kupalo: set, if: flag, сейв, меню без механик | [docs/case-loveline.md](docs/case-loveline.md), [docs/case-kupalo.md](docs/case-kupalo.md), [docs/handoff.md](docs/handoff.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.
