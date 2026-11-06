@@ -35,6 +35,7 @@
 | §15 / приложение А — эталонный пакет | [docs/manifest.md](docs/manifest.md), [docs/story.md](docs/story.md), [docs/items.md](docs/items.md), [docs/stats.md](docs/stats.md) |
 | А.8 — пошаговая конвертация | [docs/conversion.md](docs/conversion.md) |
 | 0.53 — опыт сквозного разбора (ZombieBlood): цифры, ловушки, чек-лист | [docs/case-zombieblood.md](docs/case-zombieblood.md) |
+| 0.55 — опыт короткой книги с деньгами: тип, списания, кадры, дубли | [docs/case-2500.md](docs/case-2500.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.

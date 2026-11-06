@@ -135,7 +135,7 @@ combat:
 - `C_COMBAT_INCOMPLETE` — у боя нет `win`/`lose` или врага;
 - `C_COMBAT_UNSUPPORTED` — бой найден, но не описан;
 - `C_STAT_AMBIGUOUS` — неясно, к какому стату относится изменение;
-- `C_META_MISSING` — нет типа или статуса книги.
+- `C_META_MISSING` — нет `title`, `language`, `status` или `type`.
 
 ## 10. Пример из набора
 

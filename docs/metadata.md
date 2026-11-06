@@ -86,9 +86,10 @@ status: fragment   # ознакомительный фрагмент, см. sour
 
 ## 7. Проверки
 
-- `C_META_MISSING` — нет `title`, `language` или `status`;
+- `C_META_MISSING` — нет `title`, `language`, `status` или `type`;
 - `C_META_DOUBT` — данные расходятся между титулом, обложкой и выходными данными;
 - `C_COVER_DOUBT` — файл обложки не найден или не открывается;
-- `C_SOURCE_FRAGMENT` — статус `fragment`, но маркер фрагмента не найден (или наоборот).
+- `C_STATUS_FRAGMENT_MISMATCH` — статус `fragment` не сходится с маркером: маркер есть,
+  статуса нет — или наоборот.
 
 Коды и их уровень — [review.md](review.md).

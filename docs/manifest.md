@@ -61,7 +61,6 @@ moods:                 # настроения сцен: ключ → трек, �
   calm: assets/audio/calm.ogg
   tense: assets/audio/tense.ogg
   mystery: null        # настроение размечено, трека пока нет
-default_mood: calm     # только для сцен, у которых mood не задан вовсе
 theme: theme.yaml      # TBD 9
 scenes:                # метаданные сцен, см. TBD 2
   cave_entry:
@@ -69,8 +68,8 @@ scenes:                # метаданные сцен, см. TBD 2
 ```
 
 **Настроения.** `null` у настроения значит «размечено, музыки нет»: сцена с таким
-настроением продолжает текущий трек. `default_mood` подхватывает только сцены, у которых
-`mood` отсутствует совсем. Подробно — [soundtrack.md](soundtrack.md).
+настроением продолжает текущий трек. `mood` обязателен у каждой сцены, поэтому
+`default_mood` не нужен. Подробно — [soundtrack.md](soundtrack.md).
 
 **Карточка книги.** `title`, `author`, `genre`, `annotation`, `illustrator` и `cover`
 показываются на экране библиотеки. Необязательные поля при отсутствии печатаются
@@ -90,8 +89,9 @@ scenes:                # метаданные сцен, см. TBD 2
   внешние URL — ошибка;
 - `format` обязателен: пакет без версии формата не запускается;
 - `start_items` — стартовый инвентарь: список id (количество 1) или отображение
-  `id: количество`; каждый id обязан быть объявлен в `items.yaml`, иначе ошибка. Поле нужно потому, что книжный герой почти всегда «уже вооружён», и без
-  него предметы появляются только эффектами `take`;
+  `id: количество`; каждый id обязан быть объявлен в `items.yaml`, иначе ошибка
+  (`E_START_ITEM_UNKNOWN`). Поле нужно потому, что книжный герой почти всегда «уже
+  вооружён», и без него предметы появляются только эффектами `take`;
 - структура пакета одна и та же для любой книги: предзагруженной или собранной заново;
 
 ### 2.4. Несколько изображений у сцены
@@ -274,11 +274,15 @@ scenes:
 | `E_SCENE_NO_META`, `E_SCENE_META_ORPHAN` | иначе неясно, где чьи метаданные |
 | `E_SCENE_DUPLICATE`, `E_SCENE_ID_INVALID` | иначе переход неоднозначен |
 | `E_SCENE_START_MISSING` | игру невозможно начать |
-| `E_CHOICE_TARGET_MISSING` | переход в пустоту |
-| `E_CHOICE_UNKNOWN_KEY`, `E_EFFECT_UNKNOWN_KEY` | движок не знает, что исполнять |
+| `E_SCENE_DEAD_END`, `E_SCENE_EXIT_CONFLICT` | тупик или два выхода сразу |
+| `E_TARGET_MISSING` | переход в пустоту |
+| `E_MODIFIER_UNKNOWN_KEY`, `E_EFFECT_UNKNOWN_KEY` | движок не знает, что исполнять |
 | `E_COND_UNKNOWN_ID`, `E_EFFECT_UNKNOWN_ID` | опечатка ломает логику молча |
 | `E_ASSET_MISSING` | картинка или музыка не загрузится |
-| `E_MOOD_UNKNOWN` | настроение сцены не объявлено в `moods`, музыка не заиграет |
+| `E_MOOD_UNKNOWN`, `E_MOOD_MISSING` | настроение не объявлено или не задано |
+| `E_DICE_NO_FALLBACK` | бросок без запасного исхода |
+| `E_TAG_UNBALANCED`, `E_TAG_REF_MISSING` | тег и отсылка разъехались |
+| `E_VARIANT_LETTER_MISSING`, `E_VARIANT_KEY_MISSING` | буква и цель варианта разъехались |
 
 ### 11.2. Черновой каталог [предложение]
 
@@ -293,31 +297,32 @@ scenes:
 | `E_PKG_FILE_NAME` | E | имя файла не ASCII |
 | `E_PKG_PATH_ABSOLUTE` | E | абсолютный путь, `..` или внешний URL |
 | `E_PKG_MISSING_STORY` | E | нет файла из `story:` |
-| `E_PKG_UNKNOWN_FIELD` | W | неизвестное поле манифеста |
-| `E_SCENE_ID_INVALID` | E | id не соответствует `^[a-z][a-z0-9_]*$` |
+| `W_PKG_UNKNOWN_FIELD` | W | неизвестное поле манифеста |
+| `E_SCENE_ID_INVALID` | E | id не номер главы и не слаг (`^([a-z][a-z0-9_]*|[0-9]+)$`) |
 | `E_SCENE_DUPLICATE` | E | повторяющийся id |
 | `E_SCENE_NO_META` | E | заголовок `##` без записи в `scenes` |
 | `E_SCENE_META_ORPHAN` | E | запись в `scenes` без заголовка |
 | `E_SCENE_START_MISSING` | E | `start` указывает на несуществующую сцену |
 | `E_SCENE_DEAD_END` | E | нет `variants`/`next` и нет `ending: true` |
+| `E_SCENE_EXIT_CONFLICT` | E | одновременно `next`, `variants` или `ending` |
 | `E_SCENE_NO_TITLE` | E | нет `title` |
 | `E_SCENE_H1` | W | заголовок `#` в `story.md` |
 | `W_SCENE_UNREACHABLE` | W | сцена недостижима из `start` |
 | `W_SCENE_EMPTY` | W | нет текста, выборов и эффектов |
 | `W_ENDING_UNREACHABLE` | W | есть недостижимая концовка |
-| `E_CHOICE_TARGET_MISSING` | E | переход на несуществующую сцену |
-| `E_CHOICE_NOT_LAST` | E | список выборов не последний блок сцены |
-| `E_CHOICE_MULTIPLE_LISTS` | E | больше одного списка выборов |
-| `E_CHOICE_UNKNOWN_KEY` | E | неизвестный ключ модификатора |
-| `E_CHOICE_EMPTY_TEXT` | E | пустой текст выбора |
-| `E_LINK_VALUE_EMPTY` | E | пустая подпись перехода |
+| `E_TARGET_MISSING` | E | цель `next`, `variants` или `goto` не существует |
+| `E_VARIANT_LETTER_MISSING` | E | тег/отсылка `[А]` без ключа в `variants` |
+| `E_VARIANT_KEY_MISSING` | E | ключ `variants` без тега/отсылки |
+| `E_TAG_UNBALANCED` | E | `{А}` без `{/А}` или наоборот |
+| `E_TAG_REF_MISSING` | E | тег без `[А]` внутри или отсылка без тега |
+| `E_MODIFIER_UNKNOWN_KEY` | E | неизвестный ключ модификатора варианта |
 | `E_KEY_FORMAT` | E | ключ не номер главы и не слаг |
 | `E_KEY_UNQUOTED` | E | числовой ключ в манифесте без кавычек |
-| `E_NAV_IN_PROSE` | W | в прозе осталась навигационная фраза |
-| `W_CHOICE_DUPLICATE_TARGET` | W | два пункта ведут в одну сцену |
+| `W_NAV_IN_PROSE` | W | в прозе остался номер отсылки (не адресная формула) |
+| `W_VARIANT_DUPLICATE_TARGET` | W | два варианта ведут в одну сцену |
 | `E_DICE_SYNTAX` | E | неверная запись броска |
-| `E_DICE_NO_FALLBACK` | E | в `on` нет исхода без `min` |
-| `W_CHOICE_ALL_CONDITIONAL` | W | все выборы под условием — возможен тупик |
+| `E_DICE_NO_FALLBACK` | E | в `next.outcomes` нет исхода без `min` |
+| `W_VARIANT_ALL_CONDITIONAL` | W | все варианты под условием — возможен тупик |
 | `E_COND_SYNTAX` | E | синтаксическая ошибка условия |
 | `E_COND_UNKNOWN_PREDICATE` | E | неизвестный предикат |
 | `E_COND_UNKNOWN_ID` | E | неизвестный предмет, флаг или статус |
@@ -326,7 +331,9 @@ scenes:
 | `E_EFFECT_UNKNOWN_ID` | E | неизвестный предмет, флаг или статус |
 | `E_EFFECT_STAT_ZERO` | E | дельта статуса равна нулю |
 | `E_EFFECT_STAT_NONINT` | E | дельта не целая |
+| `E_EFFECT_USE_REUSABLE` | E | `use` на многоразовом предмете |
 | `W_EFFECT_DROP_NEVER_TAKEN` | W | предмет удаляется, но нигде не выдаётся |
+| `E_START_ITEM_UNKNOWN` | E | `start_items` ссылается на необъявленный предмет |
 | `E_ITEM_NO_TITLE` | E | у предмета нет `title` |
 | `E_ITEM_BAD_ICON` | E | иконка не png или больше 128×128 |
 | `E_STAT_NO_TITLE` | E | у статуса нет `title` |
@@ -342,6 +349,14 @@ scenes:
 | `E_ASSET_MISSING` | E | файла нет в пакете |
 | `E_ASSET_FORMAT` | E | неподдерживаемый формат |
 | `W_ASSET_UNUSED` | W | файл лежит в пакете, но не используется |
+| `E_MOOD_UNKNOWN` | E | настроение сцены не объявлено в `moods` |
+| `E_MOOD_MISSING` | E | у сцены нет `mood` |
+| `E_MECHANICS_UNKNOWN_FIELD` | E | неизвестное поле в `mechanics.yaml` |
+| `E_CHECK_SCENE_MISSING` | E | проверка ссылается на несуществующую сцену |
+| `E_CHECK_TARGET_MISSING` | E | `success`/`failure` не существует |
+| `E_COMBAT_SCHEMA` | E | бой не соответствует схеме |
+| `E_COMBAT_SCENE_MISSING` | E | бой ссылается на несуществующую сцену |
+| `E_COMBAT_TARGET_MISSING` | E | `win`/`lose` не существует |
 
 **Недостижимые сцены — предупреждение, а не ошибка.** Страховочный финал («если
 предметов не хватило») может быть недостижим по графу и при этом полезен как защита от
@@ -367,27 +382,36 @@ scenes:
 format: quest/1
 id: koshchei-cave
 title: Кощеева пещера
+type: storybook
+status: complete
 language: ru
 start: cave_entry
 story: story.md
 items: items.yaml
 stats: stats.yaml
 flags: flags.yaml
+moods:
+  calm: assets/audio/calm.ogg
+  victory: null
+  grief: null
 scenes:
   cave_entry:
     title: Вход в пещеру
     image: assets/images/cave-entry.jpg
+    mood: calm
     music: assets/audio/cave.mp3
     variants:
       А: cave_hall
       Б: cave_walls
   cave_walls:
     title: Стены
+    mood: calm
     variants:
       А: cave_hall
       Б: cave_entry
   cave_hall:
     title: Зал
+    mood: calm
     music: assets/audio/hall.mp3
     variants:
       А: cave_end_rich
@@ -396,15 +420,17 @@ scenes:
       - stat: {hp: -1}
   cave_end_rich:
     title: Богатая добыча
+    mood: victory
     ending: true
   cave_end_poor:
     title: С пустыми руками
+    mood: grief
     ending: true
 ```
 
 ### А.5. Что проверяет пример
 
-- семь сцен в одном файле, id берутся из заголовков `##`;
+- пять сцен в одном файле, id берутся из заголовков `##`;
 - метаданные сцен — только в `game.yaml`, расхождение с заголовками ловит валидатор;
 - две концовки помечены `ending: true`, тупиков нет;
 - `cave_walls` возвращает назад — цикл не считается ошибкой;
