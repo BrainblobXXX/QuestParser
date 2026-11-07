@@ -41,6 +41,7 @@
 | 0.59 — книга на достижениях-флагах: «Если отмечено», бейджи, одна ссылка → `next` | [docs/case-loveline.md](docs/case-loveline.md) |
 | 0.60 — большой storybook без механик: ссылки PDF, «<…>», битый вариант, общий кадр, масштаб иллюстраций | [docs/case-kupalo.md](docs/case-kupalo.md) |
 | 0.61 — флаги в MVP и preflight Loveline/Kupalo: set, if: flag, сейв, меню без механик | [docs/case-loveline.md](docs/case-loveline.md), [docs/case-kupalo.md](docs/case-kupalo.md), [docs/handoff.md](docs/handoff.md) |
+| 0.62 — бои ZombieBlood в MVP, лавка, аудит потерянных предметов и коробок патронов | [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md), [docs/items.md](docs/items.md), [docs/case-zombieblood.md](docs/case-zombieblood.md), [docs/handoff.md](docs/handoff.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.

@@ -137,15 +137,50 @@ checks:
     success: "292"
     failure: "309"
 combat:
-  - scene: "4"
-    enemy: { name: Охранник, attack: 2, defense: 14, health: 65, weapon: "5d6" }
-    win: "320"
+  - scene: "45"
+    enemy: { name: Зомби, count: 19, attack: 1, health: 1 }
+    weapon: [knife, shotgun, submachine, grenade]
+    win: "149"
+    # необязательные особые поля:
+    # lose: "310"
+    # preDamage: "2d6+1"
+    # preDamageFrom: ["200", "253"]
+    # preStamina: 6
+    # threshold: 20
+    # bonusDamage: "1d6+2"
 ```
 
-Правила заполнения и статус расширений — [book-types/rpg.md](book-types/rpg.md) и
-[book-types/fighting-fantasy.md](book-types/fighting-fantasy.md). Пока движок не
-умеет проверки и бои, сцены остаются текстом, а записи в `mechanics.yaml` —
-заготовка на будущее; неполные записи помечаются в `review.md`.
+- `scene` — сцена начала боя; `enemy.count` нужен для запуска боя;
+- `enemy.attack` — урон каждого выжившего; `enemy.health` — здоровье врага;
+- `weapon` — список id оружия из `items.yaml`; `[]` оставляет кулаки;
+- `win` обязателен; `lose` необязателен, поражение обрабатывается общим экраном
+  смерти;
+- `preDamage`/`preDamageFrom` — уже случившийся урон (граната, первый залп);
+- `preStamina` — фиксированная потеря Выносливости до раунда;
+- `threshold` — победа при суммарном уроне не ниже порога;
+- `bonusDamage` — дополнительный бросок к урону.
+
+Правила заполнения и статус — [book-types/rpg.md](book-types/rpg.md) и
+[book-types/fighting-fantasy.md](book-types/fighting-fantasy.md). Движок MVP ведёт
+бои, выбор оружия, лечение, поражение и повтор; неполные записи помечаются в
+`review.md`.
+
+**Лавка.** Покупки задаются у сцены, а не вариантами `story.md`:
+
+```yaml
+"329":
+  title: Параграф 329
+  mood: grief
+  shop:
+    - {item: pulley, price: 1}
+    - {item: hacksaw, price: 1}
+    - {item: rubber_gloves, price: 1}
+  variants: {А: "28", Б: "157"}
+```
+
+`item` обязан быть объявлен в `items.yaml`, `price` — неотрицательное число.
+Покупка списывает `money` и добавляет предмет в инвентарь; повторная покупка
+невозможна, если предмет уже есть.
 
 ## 5. TBD 4. Условия
 
@@ -376,7 +411,13 @@ scenes:
 | `E_CHECK_TARGET_MISSING` | E | `success`/`failure` не существует |
 | `E_COMBAT_SCHEMA` | E | бой не соответствует схеме |
 | `E_COMBAT_SCENE_MISSING` | E | бой ссылается на несуществующую сцену |
-| `E_COMBAT_TARGET_MISSING` | E | `win`/`lose` не существует |
+| `E_COMBAT_WIN` | E | у боя нет `win` или его сцена не существует |
+| `E_COMBAT_LOSE` | E | `lose` ссылается на несуществующую сцену |
+| `W_COMBAT_COUNT` | W | у боя некорректный `count` |
+| `W_COMBAT_SCENE` | W | бой ссылается на несуществующую сцену |
+| `E_MECHANICS_YAML` | E | `mechanics.yaml` не разбирается |
+| `E_SHOP_UNKNOWN_ITEM` | E | `shop.item` не объявлен в `items.yaml` |
+| `E_SHOP_PRICE` | E | цена в `shop` отрицательная или не число |
 
 **Недостижимые сцены — предупреждение, а не ошибка.** Страховочный финал («если
 предметов не хватило») может быть недостижим по графу и при этом полезен как защита от
