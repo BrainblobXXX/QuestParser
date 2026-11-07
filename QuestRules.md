@@ -46,6 +46,7 @@
 | 0.62 — бои ZombieBlood в MVP, лавка, аудит потерянных предметов и коробок патронов | [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md), [docs/items.md](docs/items.md), [docs/case-zombieblood.md](docs/case-zombieblood.md), [docs/handoff.md](docs/handoff.md) |
 | 0.63 — проверки способностей, бои-контесты, создание персонажа со счётчиком, ставки | [docs/case-orcsday.md](docs/case-orcsday.md), [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md), [docs/stats.md](docs/stats.md), [docs/manifest.md](docs/manifest.md), [docs/review.md](docs/review.md) |
 | 0.64 — координатная книга Fallout II: коды «параграф ± число», `codes.yaml`, `learn_code`, панель «КОДЫ» | [docs/codes.md](docs/codes.md), [docs/case-fallout2.md](docs/case-fallout2.md), [docs/handoff.md](docs/handoff.md) |
+| 0.65 — Orcsday и Fallout II в MVP: контестный/Fallout-бой, проверки, мораль, `gambles`, коды, магазины, рейтинги предметов | [docs/handoff.md](docs/handoff.md), [docs/case-orcsday.md](docs/case-orcsday.md), [docs/case-fallout2.md](docs/case-fallout2.md), [docs/manifest.md](docs/manifest.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.
