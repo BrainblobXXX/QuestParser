@@ -18,10 +18,12 @@
 | §0.5 — `review.md`, коды `C_*` | [docs/review.md](docs/review.md) |
 | §1 — принципы формата | [AGENTS.md](AGENTS.md) |
 | §2 — структура пакета, `game.yaml`, брифы | [docs/manifest.md](docs/manifest.md), [docs/illustrations.md](docs/illustrations.md), [docs/soundtrack.md](docs/soundtrack.md) |
+| §2.7 — коды `codes.yaml` | [docs/codes.md](docs/codes.md) |
 | §2.2 — аннотированный `story.md` | [docs/story.md](docs/story.md) |
 | §2.3 — `storyGraph.md` | [docs/story-graph.md](docs/story-graph.md) |
 | §3 — сцена | [docs/story.md](docs/story.md) |
 | §4 — переходы, варианты, броски | [docs/story.md](docs/story.md) |
+| §4.8 — коды «параграф ± число» | [docs/codes.md](docs/codes.md) |
 | §5 — условия | [docs/manifest.md](docs/manifest.md) |
 | §6 — эффекты | [docs/manifest.md](docs/manifest.md) |
 | §7 — предметы | [docs/items.md](docs/items.md) |
@@ -42,6 +44,8 @@
 | 0.60 — большой storybook без механик: ссылки PDF, «<…>», битый вариант, общий кадр, масштаб иллюстраций | [docs/case-kupalo.md](docs/case-kupalo.md) |
 | 0.61 — флаги в MVP и preflight Loveline/Kupalo: set, if: flag, сейв, меню без механик | [docs/case-loveline.md](docs/case-loveline.md), [docs/case-kupalo.md](docs/case-kupalo.md), [docs/handoff.md](docs/handoff.md) |
 | 0.62 — бои ZombieBlood в MVP, лавка, аудит потерянных предметов и коробок патронов | [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md), [docs/items.md](docs/items.md), [docs/case-zombieblood.md](docs/case-zombieblood.md), [docs/handoff.md](docs/handoff.md) |
+| 0.63 — проверки способностей, бои-контесты, создание персонажа со счётчиком, ставки | [docs/case-orcsday.md](docs/case-orcsday.md), [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md), [docs/stats.md](docs/stats.md), [docs/manifest.md](docs/manifest.md), [docs/review.md](docs/review.md) |
+| 0.64 — координатная книга Fallout II: коды «параграф ± число», `codes.yaml`, `learn_code`, панель «КОДЫ» | [docs/codes.md](docs/codes.md), [docs/case-fallout2.md](docs/case-fallout2.md), [docs/handoff.md](docs/handoff.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.

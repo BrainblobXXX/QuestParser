@@ -2,7 +2,7 @@
 
 > **Если ты ИИ-агент — читай этот файл первым.** Он объясняет, зачем нужен набор
 > инструкций, как устроен весь процесс, и отправляет к нужному файлу за деталями.
-> Версия набора: **0.62**. Раньше это был один файл `QuestRules.md`; теперь он
+> Версия набора: **0.64**. Раньше это был один файл `QuestRules.md`; теперь он
 > разбит на целевые инструкции в `docs/`.
 >
 > Набор — про разбор книги: вход (текст), выход (пакет файлов) и формат этого пакета.
@@ -46,11 +46,14 @@
 | [docs/story-graph.md](docs/story-graph.md) | `storyGraph.md`: карта ветвлений |
 | [docs/items.md](docs/items.md) | `items.yaml`: предметы, проверки в прозе, аудит предметов |
 | [docs/stats.md](docs/stats.md) | `stats.yaml` и `flags.yaml`: статусы и флаги |
+| [docs/codes.md](docs/codes.md) | `codes.yaml` и `learn_code`: переходы «параграф ± код» |
 | [docs/case-zombieblood.md](docs/case-zombieblood.md) | опыт разбора ZombieBlood: цифры, ловушки, чек-лист конвертера |
 | [docs/case-2500.md](docs/case-2500.md) | опыт разбора короткой книги без механик, но с деньгами: тип, где ставить списание, кадры, дубли |
 | [docs/case-unicorn.md](docs/case-unicorn.md) | опыт минимального storybook без предметов/статов: скрытые меню, Markdown, жанр |
 | [docs/case-loveline.md](docs/case-loveline.md) | опыт книги на достижениях-флагах: «Если отмечено», бейджи, одна ссылка → `next`, флаги и preflight в MVP |
 | [docs/case-kupalo.md](docs/case-kupalo.md) | опыт большого storybook без механик: 228 сцен, ссылки PDF как готовые цели, «<…>», битый вариант, общий кадр, масштаб иллюстраций, preflight |
+| [docs/case-orcsday.md](docs/case-orcsday.md) | опыт книги с проверками способностей: 100 параграфов, 2d6-проверки, бои-контесты, создание персонажа со счётчиком, ставки, страницы-подпрограммы |
+| [docs/case-fallout2.md](docs/case-fallout2.md) | опыт координатной книги: 600 сцен, ссылки PDF как страницы, «параграф ± число», коды, достижимость 184/600 → 599/600 |
 | [docs/handoff.md](docs/handoff.md) | передача пакета в плеер: матрица поддержки MVP, preflight, сейвы, ассеты |
 
 ### 0.3. Пайплайн в двух словах
@@ -100,7 +103,8 @@ story.md       все сцены: ## <ключ>, повествование, в�
 items.yaml     только если в книге есть предметы (TBD 6)
 stats.yaml     только если в книге считаются характеристики (TBD 7)
 flags.yaml     только если в книге есть события (TBD 7)
-mechanics.yaml только если есть проверки или бои (типы fighting-fantasy/rpg)
+mechanics.yaml только если есть проверки, бои или ставки (типы fighting-fantasy/rpg)
+codes.yaml     только если книга использует коды «параграф ± число» (0.64)
 review.md      сомнительные случаи для человека + аудит предметов и денег (§0.5, [review.md](docs/review.md))
 storyGraph.md  карта ветвлений: выходы сцен, концовки, хабы, Mermaid-граф (§2.3, [story-graph.md](docs/story-graph.md))
 soundtrack.md  бриф композитору: настроение каждой сцены и главы по настроению (§2, [manifest.md](docs/manifest.md))
@@ -255,6 +259,33 @@ TBD 1–10 относятся к формату пакета и ведутся �
 
 ## 14. История версий набора
 
+- **0.64** — опыт координатной книги Fallout II: новый [docs/codes.md](docs/codes.md)
+  (`codes.yaml`, эффект `learn_code`, панель «КОДЫ», `offset`/`base`) и
+  [docs/case-fallout2.md](docs/case-fallout2.md); формат `quest/1` расширен обратно
+  совместимо; зафиксировано, что цель ссылки в PDF может быть **страницей**, а не
+  секцией, и что достижимость надо считать до разметки (Fallout II: 184/600 сцен и
+  1/39 концовок прямыми рёбрами, 599/600 и 38/39 с кодами); в `review.md` —
+  `C_CODE_DYNAMIC`, `C_CODE_RESOLVED`, `C_CODE_ENGINE_UNSUPPORTED`,
+  `C_CODE_UNRESOLVED`; в [docs/handoff.md](docs/handoff.md) — предупреждение, что
+  без слоя кодов книга схлопывается; в [docs/source.md](docs/source.md) — ссылки-аннотации
+  как страницы и `pdftohtml -i`; в [docs/illustrations.md](docs/illustrations.md) —
+  картинки приложений и мелкие иконки.
+- **0.63** — опыт книги с проверками способностей («День орка», Orc's Day, 100
+  параграфов): новый [docs/case-orcsday.md](docs/case-orcsday.md); уточнено, что
+  проверки способностей (`2d6 + стат`) сами по себе не дают тип `rpg` — это
+  `fighting-fantasy` с расширением ([docs/book-types/index.md](docs/book-types/index.md));
+  проверки описаны в `checks` с формулой в `compare` и сценой без `next`/`variants`
+  ([docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md));
+  добавлен контестный бой (Атака/Защита — сложности, попадание = 1 Здоровье) и
+  предупреждение не подгонять его под FF-схему; новый приём «разностные статусы»
+  для сравнений «стат со статом» и сцена-цикл создания персонажа со счётчиком
+  ([docs/stats.md](docs/stats.md)); предложено расширение `gambles` для ставок
+  ([docs/manifest.md](docs/manifest.md)); зафиксированы helper-страницы с возвратом
+  «к вызвавшей сцене» и недостижимая ветка спутника; новые коды `C_COMPANION_UNSUPPORTED`,
+  `C_CALL_RETURN_UNSUPPORTED`, `C_GAMBLE_UNSUPPORTED`, `C_SOURCE_PROTECTED`
+  ([docs/review.md](docs/review.md)); в [docs/source.md](docs/source.md) — PDF без
+  абзацных отступов и PDF с запретом копирования; в [docs/conversion.md](docs/conversion.md) —
+  сверка по словам без вставок и правило «проверка + выбор = техническая сцена».
 - **0.62** — опыт доведения боевой системы ZombieBlood до конца и аудит предметов:
   все 39 боёв имеют `count`/`win`; описаны `preDamage`, `preDamageFrom`,
   `preStamina`, `threshold`, `bonusDamage`; бой в MVP идёт как продолжение текста
