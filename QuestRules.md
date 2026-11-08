@@ -19,6 +19,7 @@
 | §1 — принципы формата | [AGENTS.md](AGENTS.md) |
 | §2 — структура пакета, `game.yaml`, брифы | [docs/manifest.md](docs/manifest.md), [docs/illustrations.md](docs/illustrations.md), [docs/soundtrack.md](docs/soundtrack.md) |
 | §2.7 — коды `codes.yaml` | [docs/codes.md](docs/codes.md) |
+| Quest/2 — новый контракт пакета | [docs/quest2.md](docs/quest2.md) |
 | §2.2 — аннотированный `story.md` | [docs/story.md](docs/story.md) |
 | §2.3 — `storyGraph.md` | [docs/story-graph.md](docs/story-graph.md) |
 | §3 — сцена | [docs/story.md](docs/story.md) |
@@ -47,6 +48,8 @@
 | 0.63 — проверки способностей, бои-контесты, создание персонажа со счётчиком, ставки | [docs/case-orcsday.md](docs/case-orcsday.md), [docs/book-types/fighting-fantasy.md](docs/book-types/fighting-fantasy.md), [docs/stats.md](docs/stats.md), [docs/manifest.md](docs/manifest.md), [docs/review.md](docs/review.md) |
 | 0.64 — координатная книга Fallout II: коды «параграф ± число», `codes.yaml`, `learn_code`, панель «КОДЫ» | [docs/codes.md](docs/codes.md), [docs/case-fallout2.md](docs/case-fallout2.md), [docs/handoff.md](docs/handoff.md) |
 | 0.65 — Orcsday и Fallout II в MVP: контестный/Fallout-бой, проверки, мораль, `gambles`, коды, магазины, рейтинги предметов | [docs/handoff.md](docs/handoff.md), [docs/case-orcsday.md](docs/case-orcsday.md), [docs/case-fallout2.md](docs/case-fallout2.md), [docs/manifest.md](docs/manifest.md) |
+| 0.66 — книга на 22 концовки: анкоры PDF, перенос строки варианта, «Далее» против подписи, метка «Конец», сверка по обложке | [docs/case-popadanec.md](docs/case-popadanec.md), [docs/source.md](docs/source.md), [docs/book-types/storybook.md](docs/book-types/storybook.md) |
+| 0.67 — Quest/2: новый контракт пакета, JSON Schema, семантический валидатор, без адаптера | [docs/quest2.md](docs/quest2.md), [docs/conversion.md](docs/conversion.md) |
 
 Если ссылка ведёт на конкретный раздел (`§4.5`, `А.8`), ищи его в файле-приёмнике из
 таблицы: нумерация разделов сохранена.

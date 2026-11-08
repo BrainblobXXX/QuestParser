@@ -42,6 +42,16 @@
 | `C_CODE_RESOLVED` | код с явной базой («к параграфу магазина – 197») разрешён в `base`+`offset`; проверить, что база — та сцена |
 | `C_CODE_ENGINE_UNSUPPORTED` | книга держится на кодах, а целевой плеер не знает `codes.yaml`/`learn_code`. MVP 0.65 поддерживает; код остаётся для другого плеера |
 | `C_CODE_UNRESOLVED` | ни из одной сцены смещение не даёт существующую сцену: код объявлен, но бесполезен; возможно, не найдена база |
+| `E_SCENE_MISSING` | (Quest/2 validator) цель перехода/условия не существует |
+| `E_ITEM_MISSING` | (Quest/2 validator) предмет не объявлен |
+| `E_STAT_MISSING` | (Quest/2 validator) статус не объявлен |
+| `E_FLAG_MISSING` | (Quest/2 validator) флаг не объявлен |
+| `E_CODE_MISSING` | (Quest/2 validator) код не объявлен |
+| `E_CODE_TARGET` | (Quest/2 validator) цель кода с явной базой не существует |
+| `E_ROLL_GAP` / `E_ROLL_OVERLAP` | (Quest/2 validator) диапазоны броска не покрывают значения или пересекаются |
+| `E_DEAD_END` | (Quest/2 validator) не-концовка не имеет выхода |
+| `E_ENDING_INTERACTION` | (Quest/2 validator) у концовки есть `interaction` |
+| `W_UNREACHABLE` / `W_UNREACHABLE_ENDING` | (Quest/2 validator) недостижимая сцена/концовка |
 | `C_ITEMS_EXTRA` | в пакет добавлены предметы для антуража, хотя книга не проверяет их условиями |
 | `C_ITEMS_UNTRACKED` | предметы упомянуты в прозе и вариантах, но проверок на них нет |
 | `C_ITEM_NO_SOURCE` | предмет проверяется условием, но книга нигде его не выдаёт: условие не ставится, ветка остаётся доступной |
